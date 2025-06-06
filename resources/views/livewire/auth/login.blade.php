@@ -1,4 +1,4 @@
-<div class="flex flex-col gap-6">
+<div class="flex flex-col gap-6 w-full max-w-md mx-auto">
     <div class="bg-white dark:bg-zinc-900 shadow-sm rounded-lg border border-zinc-200 dark:border-zinc-800">
         <div class="p-6 sm:p-8">
             <x-auth-header :title="__('Log in to your account')" :description="__('Enter your email and password below to log in')" />
