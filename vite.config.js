@@ -13,6 +13,15 @@ export default defineConfig({
         tailwindcss(),
     ],
     server: {
-        cors: true,
+        host: 'localhost',
+        port: 5173,
+        strictPort: true,
+        cors: {
+            origin: ['http://laravel-starter.test', 'http://localhost:8000'],
+            credentials: true
+        },
+        hmr: {
+            host: 'localhost'
+        }
     },
 });
