@@ -53,9 +53,12 @@
                                 Settings
                             </flux:menu.item>
                             <flux:menu.separator />
-                            <flux:menu.item wire:click="$dispatch('logout')">
-                                Logout
-                            </flux:menu.item>
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <flux:menu.item type="submit">
+                                    Logout
+                                </flux:menu.item>
+                            </form>
                         </flux:menu>
                     </flux:dropdown>
                 @endguest
