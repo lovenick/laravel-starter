@@ -3,6 +3,7 @@
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
+use App\Livewire\ShowSupport;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -11,6 +12,7 @@ Route::get('/', function () {
 
 Route::view('privacy', 'privacy')->name('privacy');
 Route::view('terms', 'terms')->name('terms');
+Route::get('support', ShowSupport::class)->name('support');
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
