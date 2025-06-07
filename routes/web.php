@@ -6,10 +6,7 @@ use App\Livewire\Settings\Profile;
 use App\Livewire\ShowSupport;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
-
+Route::view('/', 'home')->name('home');
 Route::view('privacy', 'privacy')->name('privacy');
 Route::view('terms', 'terms')->name('terms');
 Route::get('support', ShowSupport::class)->name('support');
@@ -26,4 +23,4 @@ Route::middleware(['auth'])->group(function () {
     Route::get('settings/appearance', Appearance::class)->name('settings.appearance');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
