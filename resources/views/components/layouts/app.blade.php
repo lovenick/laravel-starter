@@ -31,10 +31,27 @@
         x-init="() => ($flux.appearance = 'light')"
     >
         <flux:container
-            class="flex min-h-screen items-center justify-center p-6"
+            class="flex min-h-screen flex-col"
         >
-            {{ $slot }}
+            <main class="flex flex-1 items-center justify-center p-6">
+                {{ $slot }}
+            </main>
+            
+            <footer class="py-6 text-center">
+                <div class="text-xs text-zinc-500">
+                    <p class="mb-2">© {{ date('Y') }} {{ config('app.name') }}. All rights reserved.</p>
+                    <div class="flex items-center justify-center gap-4">
+                        <a href="/privacy" class="hover:text-zinc-700 transition-colors">Privacy</a>
+                        <a href="/terms" class="hover:text-zinc-700 transition-colors">Terms</a>
+                        <a href="/support" class="hover:text-zinc-700 transition-colors">Support</a>
+                    </div>
+                </div>
+            </footer>
         </flux:container>
+
+        @persist('toast')
+            <flux:toast position="top right" />
+        @endpersist
 
         @fluxScripts
     </body>
