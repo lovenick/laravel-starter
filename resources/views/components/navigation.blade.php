@@ -38,10 +38,12 @@
                     </flux:button>
                 @else
                     <flux:dropdown align="end">
-                        <flux:avatar
-                            size="sm"
-                            name="{{ Auth::user()->name }}"
-                        />
+                        <flux:button variant="ghost" square>
+                            <flux:avatar
+                                size="sm"
+                                name="{{ Auth::user()->name }}"
+                            />
+                        </flux:button>
 
                         <flux:menu>
                             <flux:menu.item href="/dashboard">
