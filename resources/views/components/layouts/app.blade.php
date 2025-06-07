@@ -30,6 +30,8 @@
         x-data
         x-init="() => ($flux.appearance = 'light')"
     >
+        <x-navigation />
+        
         <flux:container
             class="flex min-h-screen flex-col"
         >
