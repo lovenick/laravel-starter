@@ -4,7 +4,7 @@
     </flux:main>
 </x-layouts.app.sidebar> --}}
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -19,11 +19,11 @@
         <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
 
         @vite(['resources/css/app.css', 'resources/js/app.js'])
-        @fluxAppearance
     </head>
-    <body class="min-h-screen bg-gray-50">
-        {{-- TODO: Add navigation menu --}}
-        {{ $slot }}
+    <body class="min-h-screen bg-zinc-50" x-data x-init="() => $flux.appearance = 'light'">
+        <flux:container class="min-h-screen flex items-center justify-center p-6">
+            {{ $slot }}
+        </flux:container>
 
         @fluxScripts
     </body>

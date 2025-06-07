@@ -1,0 +1,60 @@
+/* Force light mode styles */
+:root {
+    color-scheme: light !important;
+}
+
+html {
+    color-scheme: light !important;
+}
+
+/* Ensure dark mode classes don't apply */
+html.dark {
+    color-scheme: light !important;
+}
+
+/* Force light mode text colors */
+[data-flux-heading],
+[data-flux-subheading],
+[data-flux-label],
+.text-zinc-800,
+h1, h2, h3, h4, h5, h6,
+label {
+    color: rgb(39, 39, 42) !important; /* zinc-800 */
+}
+
+/* Force light mode for inputs */
+[data-flux-input] input,
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    background-color: white !important;
+    color: rgb(63, 63, 70) !important; /* zinc-700 */
+    border-color: rgb(228, 228, 231) !important; /* zinc-200 */
+}
+
+/* Force light mode for cards */
+[data-flux-card] {
+    background-color: white !important;
+    border-color: rgb(228, 228, 231) !important;
+}
+
+/* Force light mode for buttons */
+[data-flux-button] {
+    color: white !important;
+}
+
+/* Ensure body has light background */
+body {
+    background-color: white !important;
+    color: rgb(39, 39, 42) !important;
+}
+
+/* Override any dark mode specific styles */
+.dark\:bg-zinc-900,
+.dark\:bg-white\/10,
+.dark\:text-white,
+.dark\:text-zinc-400,
+.dark\:border-zinc-800,
+.dark\:border-white\/10 {
+    all: revert !important;
+}

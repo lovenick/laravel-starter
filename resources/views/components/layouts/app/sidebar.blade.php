@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         @include('partials.head')
     </head>
-    <body class="min-h-screen bg-white dark:bg-zinc-800">
-        <flux:sidebar sticky stashable class="border-e border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
+    <body class="min-h-screen bg-white">
+        <flux:sidebar sticky stashable class="border-e border-zinc-200 bg-zinc-50">
             <flux:sidebar.toggle class="lg:hidden" icon="x-mark" />
 
             <a href="{{ route('dashboard') }}" class="me-5 flex items-center space-x-2 rtl:space-x-reverse" wire:navigate>
@@ -43,7 +43,7 @@
                             <div class="flex items-center gap-2 px-1 py-1.5 text-start text-sm">
                                 <span class="relative flex h-8 w-8 shrink-0 overflow-hidden rounded-lg">
                                     <span
-                                        class="flex h-full w-full items-center justify-center rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white"
+                                        class="flex h-full w-full items-center justify-center rounded-lg bg-neutral-200 text-black"
                                     >
                                         {{ auth()->user()->initials() }}
                                     </span>
@@ -93,7 +93,7 @@
                             <div class="flex items-center gap-2 px-1 py-1.5 text-start text-sm">
                                 <span class="relative flex h-8 w-8 shrink-0 overflow-hidden rounded-lg">
                                     <span
-                                        class="flex h-full w-full items-center justify-center rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white"
+                                        class="flex h-full w-full items-center justify-center rounded-lg bg-neutral-200 text-black"
                                     >
                                         {{ auth()->user()->initials() }}
                                     </span>
@@ -127,6 +127,121 @@
 
         {{ $slot }}
 
+        {{-- Force light mode before Flux scripts --}}
+        <script>
+            (function() {
+                // Remove any existing dark mode classes and attributes
+                document.documentElement.classList.remove('dark');
+                document.documentElement.removeAttribute('data-flux-theme');
+                document.documentElement.removeAttribute('data-theme');
+                
+                // Override localStorage to prevent dark mode
+                const originalSetItem = localStorage.setItem;
+                localStorage.setItem = function(key, value) {
+                    if (key === 'flux-theme' || key === 'theme' || key === 'color-theme') {
+                        return originalSetItem.call(this, key, 'light');
+                    }
+                    return originalSetItem.call(this, key, value);
+                };
+                
+                // Set light mode in localStorage
+                localStorage.setItem('flux-theme', 'light');
+                localStorage.setItem('theme', 'light');
+                localStorage.setItem('color-theme', 'light');
+                
+                // Override matchMedia to always return light mode preference
+                const originalMatchMedia = window.matchMedia;
+                window.matchMedia = function(query) {
+                    if (query === '(prefers-color-scheme: dark)') {
+                        return {
+                            matches: false,
+                            media: query,
+                            onchange: null,
+                            addListener: () => {},
+                            removeListener: () => {},
+                            addEventListener: () => {},
+                            removeEventListener: () => {},
+                            dispatchEvent: () => {}
+                        };
+                    }
+                    return originalMatchMedia.call(this, query);
+                };
+            })();
+        </script>
+
         @fluxScripts
+
+        {{-- Ensure light mode stays active after Flux scripts --}}
+        <script>
+            (function() {
+                // Function to enforce light mode
+                function enforceOnlyLightMode() {
+                    document.documentElement.classList.remove('dark');
+                    document.documentElement.removeAttribute('data-flux-theme');
+                    document.documentElement.removeAttribute('data-theme');
+                    document.documentElement.setAttribute('data-flux-theme', 'light');
+                    
+                    // Ensure all color scheme meta tags are set to light
+                    const colorSchemeMeta = document.querySelector('meta[name="color-scheme"]');
+                    if (colorSchemeMeta) {
+                        colorSchemeMeta.content = 'light';
+                    }
+                }
+                
+                // Apply immediately
+                enforceOnlyLightMode();
+                
+                // Monitor for any changes to dark mode
+                const observer = new MutationObserver(function(mutations) {
+                    mutations.forEach(function(mutation) {
+                        if (mutation.type === 'attributes') {
+                            if (mutation.target === document.documentElement) {
+                                if (document.documentElement.classList.contains('dark') || 
+                                    document.documentElement.getAttribute('data-flux-theme') === 'dark' ||
+                                    document.documentElement.getAttribute('data-theme') === 'dark') {
+                                    enforceOnlyLightMode();
+                                }
+                            }
+                        }
+                    });
+                });
+                
+                // Start observing
+                observer.observe(document.documentElement, {
+                    attributes: true,
+                    attributeFilter: ['class', 'data-flux-theme', 'data-theme']
+                });
+                
+                // Also check periodically (backup)
+                setInterval(enforceOnlyLightMode, 1000);
+                
+                // Override any theme toggle functions
+                if (window.Flux) {
+                    const enforceLight = () => {
+                        enforceOnlyLightMode();
+                        localStorage.setItem('flux-theme', 'light');
+                    };
+                    
+                    if (window.Flux.theme) {
+                        window.Flux.theme.set = enforceLight;
+                        window.Flux.theme.toggle = enforceLight;
+                    }
+                    
+                    // Monitor for Flux object changes
+                    Object.defineProperty(window.Flux, 'theme', {
+                        get() {
+                            return {
+                                set: enforceLight,
+                                toggle: enforceLight,
+                                current: 'light'
+                            };
+                        },
+                        set() {
+                            // Ignore any attempts to set the theme object
+                        }
+                    });
+                }
+            })();
+        </script>
     </body>
 </html>
