@@ -1,11 +1,17 @@
-<div class="flex flex-col gap-6 w-full max-w-md mx-auto">
+<div class="mx-auto flex w-full max-w-md flex-col gap-6">
     <flux:card>
-        <x-auth-header :title="__('Create an account')" :description="__('Enter your details below to create your account')" />
+        <x-auth-header
+            :title="__('Create an account')"
+            :description="__('Enter your details below to create your account')"
+        />
 
         <!-- Session Status -->
-        <x-auth-session-status class="text-center mt-4" :status="session('status')" />
+        <x-auth-session-status
+            class="mt-4 text-center"
+            :status="session('status')"
+        />
 
-        <form wire:submit="register" class="flex flex-col gap-6 mt-6">
+        <form wire:submit="register" class="mt-6 flex flex-col gap-6">
             <!-- Name -->
             <flux:input
                 wire:model="name"
@@ -57,8 +63,12 @@
         </form>
     </flux:card>
 
-    <div class="space-x-1 rtl:space-x-reverse text-center text-sm text-zinc-600">
+    <div
+        class="space-x-1 text-center text-sm text-zinc-600 rtl:space-x-reverse"
+    >
         {{ __('Already have an account?') }}
-        <flux:link :href="route('login')" wire:navigate>{{ __('Log in') }}</flux:link>
+        <flux:link :href="route('login')" wire:navigate>
+            {{ __('Log in') }}
+        </flux:link>
     </div>
 </div>

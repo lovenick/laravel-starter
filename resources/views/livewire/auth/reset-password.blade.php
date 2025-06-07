@@ -1,11 +1,17 @@
-<div class="flex flex-col gap-6 w-full max-w-md mx-auto">
+<div class="mx-auto flex w-full max-w-md flex-col gap-6">
     <flux:card>
-        <x-auth-header :title="__('Reset password')" :description="__('Please enter your new password below')" />
+        <x-auth-header
+            :title="__('Reset password')"
+            :description="__('Please enter your new password below')"
+        />
 
         <!-- Session Status -->
-        <x-auth-session-status class="text-center mt-4" :status="session('status')" />
+        <x-auth-session-status
+            class="mt-4 text-center"
+            :status="session('status')"
+        />
 
-        <form wire:submit="resetPassword" class="flex flex-col gap-6 mt-6">
+        <form wire:submit="resetPassword" class="mt-6 flex flex-col gap-6">
             <!-- Email Address -->
             <flux:input
                 wire:model="email"

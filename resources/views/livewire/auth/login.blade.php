@@ -1,11 +1,17 @@
-<div class="flex flex-col gap-6 w-full max-w-md mx-auto">
+<div class="mx-auto flex w-full max-w-md flex-col gap-6">
     <flux:card>
-        <x-auth-header :title="__('Log in to your account')" :description="__('Enter your email and password below to log in')" />
+        <x-auth-header
+            :title="__('Log in to your account')"
+            :description="__('Enter your email and password below to log in')"
+        />
 
         <!-- Session Status -->
-        <x-auth-session-status class="text-center mt-4" :status="session('status')" />
+        <x-auth-session-status
+            class="mt-4 text-center"
+            :status="session('status')"
+        />
 
-        <form wire:submit="login" class="flex flex-col gap-6 mt-6">
+        <form wire:submit="login" class="mt-6 flex flex-col gap-6">
             <!-- Email Address -->
             <flux:input
                 wire:model="email"
@@ -30,7 +36,11 @@
                 />
 
                 @if (Route::has('password.request'))
-                    <flux:link class="absolute end-0 top-0 text-sm" :href="route('password.request')" wire:navigate>
+                    <flux:link
+                        class="absolute end-0 top-0 text-sm"
+                        :href="route('password.request')"
+                        wire:navigate
+                    >
                         {{ __('Forgot your password?') }}
                     </flux:link>
                 @endif
@@ -40,15 +50,21 @@
             <flux:checkbox wire:model="remember" :label="__('Remember me')" />
 
             <div class="flex items-center justify-end">
-                <flux:button variant="primary" type="submit" class="w-full">{{ __('Log in') }}</flux:button>
+                <flux:button variant="primary" type="submit" class="w-full">
+                    {{ __('Log in') }}
+                </flux:button>
             </div>
         </form>
     </flux:card>
 
     @if (Route::has('register'))
-        <div class="space-x-1 rtl:space-x-reverse text-center text-sm text-zinc-600">
+        <div
+            class="space-x-1 text-center text-sm text-zinc-600 rtl:space-x-reverse"
+        >
             {{ __('Don\'t have an account?') }}
-            <flux:link :href="route('register')" wire:navigate>{{ __('Sign up') }}</flux:link>
+            <flux:link :href="route('register')" wire:navigate>
+                {{ __('Sign up') }}
+            </flux:link>
         </div>
     @endif
 </div>
