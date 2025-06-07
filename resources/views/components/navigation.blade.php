@@ -38,7 +38,7 @@
                     </flux:button>
                 @else
                     <flux:dropdown align="end">
-                        <flux:button variant="ghost" square>
+                        <flux:button variant="ghost" icon:trailing="chevron-down">
                             <flux:avatar
                                 size="sm"
                                 name="{{ Auth::user()->name }}"
